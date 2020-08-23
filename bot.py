@@ -13,6 +13,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
 
 async def check_factorio_stats():
+  global channel
   await client.wait_until_ready()
 
   while not client.is_closed():
@@ -27,6 +28,7 @@ async def check_factorio_stats():
 
 @client.event
 async def on_ready():
+  global channel
   start_time = time.time()
   channel = client.get_channel(747152188631154748)
   print(channel.name)
