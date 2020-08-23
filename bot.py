@@ -15,6 +15,7 @@ client = discord.Client()
 async def check_factorio_stats():
   global channel
   await client.wait_until_ready()
+  channel = client.get_channel(747152188631154748)
 
   while not client.is_closed():
     for member in client.guilds[0].members:
