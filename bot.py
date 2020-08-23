@@ -14,7 +14,6 @@ client = discord.Client()
 @client.event
 async def on_ready():
   start_time = time.time()
-  print(CHANNEL_ID)
   channel = client.get_channel(747152188631154748)
   print(channel.name)
   print(f'{client.user} has connected to Discord!')
