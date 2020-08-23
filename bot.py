@@ -25,9 +25,11 @@ async def check_factorio_stats():
         hours = time_played.seconds // 3600
         minutes = (time_played.seconds // 60) % 60
 
-        playing.appens([member.nick, hours, minutes])
-
-    await send(f'Current fiends: {map(lambda x: f'{x[0]}: {x[1]} hours and {x[2]} minutes', playing)}')
+        playing.append(f'{member.nick}: {hours} hours and {minutes} minutes')
+    str = 'Current fiends:'
+    for ch in playing:
+      str = str + '\n' + '   ' + ch
+    await send(str')
     await asyncio.sleep(60)    
 
 @client.event
