@@ -27,6 +27,6 @@ async def on_ready():
 
         await channel.send(f'{member.nick} has been playing Factorio for {hours} hours and {minutes} minutes.')
 
-    time.sleep(3600.0 - ((time.time() - start_time) % 3600.0))
+    time.sleep(300.0 - ((time.time() - start_time) % 300.0))
 
 client.run(TOKEN)
