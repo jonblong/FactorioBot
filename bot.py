@@ -18,13 +18,16 @@ async def check_factorio_stats():
   channel = client.get_channel(747152188631154748)
 
   while not client.is_closed():
+    playing = []
     for member in client.guilds[0].members:
       if member.activity and member.activity.name == "Factorio":
         time_played = (datetime.datetime.now(tz=timezone.utc) - member.activity.created_at.replace(tzinfo = timezone.utc))
         hours = time_played.seconds // 3600
         minutes = (time_played.seconds // 60) % 60
 
-        await channel.send(f'{member.nick} has been playing Factorio for {hours} hours and {minutes} minutes.')
+        playing.appens([member.nick, hours, minutes])
+
+    await send(f'Current fiends: {map(lambda x: f'{x[0]}: {x[1]} hours and {x[2]} minutes', playing)}')
     await asyncio.sleep(60)    
 
 @client.event
