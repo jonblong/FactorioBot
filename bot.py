@@ -29,7 +29,7 @@ async def check_factorio_stats():
     str = 'Current fiends:'
     for ch in playing:
       str = str + '\n' + '   ' + ch
-    await send(str)
+    await client.send(str)
     await asyncio.sleep(60)    
 
 @client.event
