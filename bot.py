@@ -29,6 +29,6 @@ async def on_ready():
         if hours >= 4:
           await channel.send('https://www.youtube.com/watch?v=EdstMCqTJw8')
 
-    time.sleep(3600.0 - ((time.time() - start_time) % 3600.0))
+    time.sleep(60.0 - ((time.time() - start_time) % 60.0))
 
 client.run(TOKEN)
