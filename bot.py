@@ -18,6 +18,7 @@ async def on_ready():
   channel = client.get_channel(747152188631154748)
   print(channel.name)
   print(f'{client.user} has connected to Discord!')
+  await channel.send('Connected successfully!')
   while True:
     for member in client.guilds[0].members:
       if member.activity and member.activity.name == "Factorio":
