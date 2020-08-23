@@ -25,9 +25,7 @@ async def on_ready():
         hours = time_played.seconds // 3600
         minutes = (time_played.seconds // 60) % 60
 
-        await channel.send(f'{member.nick} has been playing Factorio for {hours} hours and {minutes} minutes. His friends and family are beginning to worry.')
-        if hours >= 4:
-          await channel.send('https://www.youtube.com/watch?v=EdstMCqTJw8')
+        await channel.send(f'{member.nick} has been playing Factorio for {hours} hours and {minutes} minutes.')
 
     time.sleep(3600.0 - ((time.time() - start_time) % 3600.0))
 
