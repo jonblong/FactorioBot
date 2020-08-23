@@ -11,14 +11,10 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 client = discord.Client()
 
-@client.event
-async def on_ready():
-  start_time = time.time()
-  channel = client.get_channel(747152188631154748)
-  print(channel.name)
-  print(f'{client.user} has connected to Discord!')
-  await channel.send('Connected successfully!')
-  while True:
+async def check_factorio_stats():
+  await client.wait_until_ready()
+
+  while not client.is_closed():
     for member in client.guilds[0].members:
       if member.activity and member.activity.name == "Factorio":
         time_played = (datetime.datetime.now(tz=timezone.utc) - member.activity.created_at.replace(tzinfo = timezone.utc))
@@ -26,7 +22,15 @@ async def on_ready():
         minutes = (time_played.seconds // 60) % 60
 
         await channel.send(f'{member.nick} has been playing Factorio for {hours} hours and {minutes} minutes.')
+    await asyncio.sleep(60)    
 
-    time.sleep(300.0 - ((time.time() - start_time) % 300.0))
+@client.event
+async def on_ready():
+  start_time = time.time()
+  channel = client.get_channel(747152188631154748)
+  print(channel.name)
+  print(f'{client.user} has connected to Discord!')
+  await channel.send('Connected successfully!')
 
+client.loop.create_task(check_factorio_stats())
 client.run(TOKEN)
