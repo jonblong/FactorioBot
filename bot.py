@@ -13,12 +13,12 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
 
 async def check_factorio_stats():
-  global channel
   await client.wait_until_ready()
   channel = client.get_channel(747152188631154748)
 
   while not client.is_closed():
-    await channel.send(get_play_time())
+    if get_play_time() != 'NONE':
+      await channel.send(get_play_time())
     await asyncio.sleep(3600)
 
 def get_play_time():
@@ -32,13 +32,15 @@ def get_play_time():
       playing.append(f'{member.nick}: {hours} hours and {minutes} minutes')
   str = 'Current fiends:'
   for ch in playing:
-    str = str + '\n' + '   ' + ch
+    str = str + '\n' + '     ' + ch
   
-  return str
+  if len(playing) > 0:
+    return str
+  else:
+    return 'NONE'
 
 @client.event
 async def on_ready():
-  global channel
   start_time = time.time()
   channel = client.get_channel(747152188631154748)
   print(channel.name)
@@ -47,11 +49,11 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author == client.user:
-        return
+  if message.author == client.user:
+    return
 
-    if message.content.startswith('$cracktorio'):
-        await message.channel.send(get_play_time())
+  if message.content.startswith('$cracktorio'):
+    await message.channel.send(get_play_time())
 
 client.loop.create_task(check_factorio_stats())
 client.run(TOKEN)
