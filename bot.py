@@ -3,7 +3,7 @@ import time
 import datetime
 import asyncio
 import discord
-import scrython
+import requests
 from datetime import timezone
 from dotenv import load_dotenv
 from discord.ext import commands
@@ -43,7 +43,7 @@ def get_play_time():
 
 @bot.event
 async def on_ready():
-  channel = client.get_channel(747152188631154748)
+  channel = bot.get_channel(CHANNEL)
   print(channel.name)
   print(f'{bot.user} has connected to Discord!')
   await channel.send('Connected successfully!')
@@ -52,12 +52,17 @@ async def on_ready():
 async def cracktorio(ctx):
   await ctx.send(get_play_time())
 
-  if message.content.startswith('$cracktorio'):
-    msg = get_play_time()
-    if msg != 'NONE':
-      await message.channel.send(msg)
-    else:
-      await message.channel.send("Everyone is clean.")
+@bot.command(name='mtg', help='Find a MTG card')
+async def mtg(ctx, *name):
+  terms = ""
+  for term in name:
+    terms = terms + term + '+'
+
+  response = requests.get('https://api.scryfall.com/cards/named?fuzzy=%s'%terms)
+  if response.status_code == 200:
+    await ctx.send(response.json()['image_uris']['png'])
+  else: 
+    await ctx.send("Card not found!")
 
 bot.loop.create_task(check_factorio_stats())
 bot.run(TOKEN)
