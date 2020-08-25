@@ -6,24 +6,26 @@ import asyncio
 import discord
 from datetime import timezone
 from dotenv import load_dotenv
+from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL = int(os.getenv('CHANNEL_ID'))
 
-client = discord.Client()
+bot = commands.Bot(command_prefix='!')
 
 async def check_factorio_stats():
-  await client.wait_until_ready()
-  channel = client.get_channel(747152188631154748)
+  await bot.wait_until_ready()
+  channel = bot.get_channel(CHANNEL)
 
-  while not client.is_closed():
+  while not bot.is_closed():
     if get_play_time() != 'NONE':
       await channel.send(get_play_time())
     await asyncio.sleep(3600)
 
 def get_play_time():
   playing = []
-  for member in client.guilds[0].members:
+  for member in bot.guilds[0].members:
     if member.activity and member.activity.name == "Factorio":
       time_played = (datetime.datetime.now(tz=timezone.utc) - member.activity.created_at.replace(tzinfo = timezone.utc))
       hours = time_played.seconds // 3600
@@ -39,21 +41,21 @@ def get_play_time():
   else:
     return 'NONE'
 
-@client.event
+@bot.event
 async def on_ready():
   start_time = time.time()
-  channel = client.get_channel(747152188631154748)
+  channel = bot.get_channel(CHANNEL)
   print(channel.name)
-  print(f'{client.user} has connected to Discord!')
+  print(f'{bot.user} has connected to Discord!')
   await channel.send('Connected successfully!')
 
-@client.event
-async def on_message(message):
-  if message.author == client.user:
-    return
+@bot.command(name='cracktorio', help='See which of your friends are scratching the itch.')
+async def cracktorio(ctx):
+  await ctx.send(get_play_time())
 
-  if message.content.startswith('$cracktorio'):
-    await message.channel.send(get_play_time())
+@bot.command(name='talk-shit', help='Tells it like it is.')
+async def talk_shit(ctx):
+  await ctx.send("Mitchell? More like Bitchell.")
 
-client.loop.create_task(check_factorio_stats())
-client.run(TOKEN)
+bot.loop.create_task(check_factorio_stats())
+bot.run(TOKEN)
