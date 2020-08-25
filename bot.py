@@ -1,9 +1,9 @@
-# bot.py
 import os
 import time
 import datetime
 import asyncio
 import discord
+import scrython
 from datetime import timezone
 from dotenv import load_dotenv
 
@@ -41,7 +41,6 @@ def get_play_time():
 
 @client.event
 async def on_ready():
-  start_time = time.time()
   channel = client.get_channel(747152188631154748)
   print(channel.name)
   print(f'{client.user} has connected to Discord!')
@@ -53,7 +52,11 @@ async def on_message(message):
     return
 
   if message.content.startswith('$cracktorio'):
-    await message.channel.send(get_play_time())
+    msg = get_play_time()
+    if msg != 'NONE':
+      await message.channel.send(msg)
+    else:
+      await message.channel.send("Everyone is clean.")
 
 client.loop.create_task(check_factorio_stats())
 client.run(TOKEN)
