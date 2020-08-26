@@ -10,6 +10,7 @@ CHANNEL = int(os.getenv('CHANNEL_ID'))
 bot = commands.Bot(command_prefix='!')
 bot.load_extension("cogs.mtgcog")
 bot.load_extension("cogs.factoriocog")
+bot.load_extension("cogs.economycog")
 
 @bot.event
 async def on_ready():
