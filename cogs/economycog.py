@@ -77,7 +77,7 @@ class EconomyCog(commands.Cog):
     for user in results:
       name = self.bot.get_user(int(user[0])).name
       points = user[1]
-      leaderboard += f'{name}: {' ' * (40 - len(name))} {points}\n'
+      leaderboard += f'{name}: {" " * (40 - len(name))} {points}\n'
 
     await ctx.send(leaderboard)
 
