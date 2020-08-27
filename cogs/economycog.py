@@ -49,7 +49,6 @@ class EconomyCog(commands.Cog):
 
     cur.execute("SELECT EXISTS(SELECT 1 FROM currency WHERE user_id LIKE %s);", (id,))
     no = cur.fetchone()[0]
-    print(no)
     if not no:
       cur.execute("INSERT INTO currency (user_id, points) VALUES (%s, %s);", (id, 0))
       conn.commit()
