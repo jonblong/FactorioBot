@@ -31,9 +31,10 @@ class FactorioCog(commands.Cog):
     crack = ""
     for member in guild.members:
       if member.activity:
-        crack += f'{member.name} - {member.activity.name} - {get_time_played(member.activity.created_at.replace(tzinfo = timezone.utc))}\n'
+        crack += f'{member.name} - {member.activity.name} {" " * (30 - len(member.name) - len(member.activity.name))} {get_time_played(member.activity.created_at.replace(tzinfo = timezone.utc))}\n'
 
     if len(crack) > 0:
+      crack = "```" + crack + "```"
       await ctx.send(crack)
     else:
       await ctx.send("Everyone is clean!")
