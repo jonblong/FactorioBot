@@ -72,7 +72,7 @@ class EconomyCog(commands.Cog):
     )
 
     cur = conn.cursor()
-    cur.execute("SELECT user_id, points FROM currency;")
+    cur.execute("SELECT user_id, points FROM currency ORDER BY points;")
     results = cur.fetchall()
     for user in results:
       name = self.bot.get_user(int(user[0])).name
