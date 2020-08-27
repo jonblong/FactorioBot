@@ -61,9 +61,9 @@ class EconomyCog(commands.Cog):
     cur.close()
     conn.close()
 
-  @commands.command(name='leaderboard', help='Shows')
+  @commands.command(name='leaderboard', help='Shows whoever is rich, or something')
   async def leaderboard(self, ctx):
-    leaderboard = ""
+    leaderboard = "```"
     conn = psycopg2.connect(
       host=HOSTNAME,
       user="postgres",
@@ -79,6 +79,7 @@ class EconomyCog(commands.Cog):
       points = user[1]
       leaderboard += f'{name}: {" " * (40 - len(name))} {points}\n'
 
+    leaderboard += "```"
     await ctx.send(leaderboard)
 
     cur.close()
