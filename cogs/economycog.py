@@ -62,7 +62,7 @@ class EconomyCog(commands.Cog):
     conn.close()
 
   @commands.command(name='leaderboard', help='Shows')
-  async def leaderboard(self, ctx, name):
+  async def leaderboard(self, ctx):
     leaderboard = ""
     conn = psycopg2.connect(
       host=HOSTNAME,
