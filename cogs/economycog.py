@@ -61,5 +61,28 @@ class EconomyCog(commands.Cog):
     cur.close()
     conn.close()
 
+  @commands.command(name='leaderboard', help='Shows')
+  async def leaderboard(self, ctx, name):
+    leaderboard = ""
+    conn = psycopg2.connect(
+      host=HOSTNAME,
+      user="postgres",
+      password=PASSWORD,
+      dbname=DATABASE
+    )
+
+    cur = conn.cursor()
+    cur.execute("SELECT user_id, points FROM currency;")
+    results = cur.fetchall()
+    for user in results:
+      name = self.bot.get_user(int(user[0])).name
+      points = user[1]
+      leaderboard += f'{name}: points\n'
+
+    await ctx.send(leaderboard)
+
+    cur.close()
+    conn.close()
+
 def setup(bot):
   bot.add_cog(EconomyCog(bot))
